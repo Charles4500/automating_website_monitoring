@@ -8,6 +8,8 @@ selenium = "*"
 schedule = "*"
 pyautogui = "*"
 twilio = "*"
+webdriver-manager = "*"
+flask = "*"
 
 [dev-packages]
 
