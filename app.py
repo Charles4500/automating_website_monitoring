@@ -13,9 +13,9 @@ import threading
 app = Flask(__name__)
 
 # UltraMsg API Configuration
-ULTRA_API_URL = 'your_ultra_api_url'
-ULTRA_API_TOKEN = 'your_ultra_api_token'
-CHAT_ID = 'phone_to_receive_message'
+ULTRA_API_URL = os.environ.get('ULTRA_API_URL')
+ULTRA_API_TOKEN = os.environ.get('ULTRA_API_TOKEN')
+CHAT_ID = os.environ.get('CHAT_ID')
 
 
 # Full documenation here `https://blog.ultramsg.com/make-whatsapp-chatbot-using-python-ultramsg/`
@@ -97,7 +97,7 @@ def monitor_websites():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g #09.00
-schedule.every().day.at("09:00").do(monitor_websites)
+schedule.every().day.at("20:40").do(monitor_websites)
 
 
 def run_scheduler():
