@@ -16,6 +16,13 @@ pipenv install flask selenium webdriver_manager
 python app.py
 ```
 
+## TODO 
+
+- [ ] Add support for monitoring multiple websites
+- [ ] Add support for sending messages to multiple platforms e.g. email, slack
+- [ ] Add support for sending messages to multiple users
+
+
 ## Conclusion
 
 This repository contains the code for automating website monitoring using Python. The code monitors the status of a website and sends a whatsapp message if the website is down. The code can be used to monitor any website and send a message to any platform.
