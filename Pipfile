@@ -10,6 +10,7 @@ pyautogui = "*"
 twilio = "*"
 webdriver-manager = "*"
 flask = "*"
+gunicorn = "*"
 
 [dev-packages]
 
