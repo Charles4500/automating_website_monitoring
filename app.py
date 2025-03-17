@@ -97,7 +97,7 @@ def monitor_websites():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-schedule.every().day.at("08:30").do(monitor_websites)
+schedule.every().day.at("09:30").do(monitor_websites)
 
 
 def run_scheduler():
