@@ -58,15 +58,7 @@ def greeting():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-scheduler.add_job(
-    greeting,
-    'cron',
-    hour=13,
-    minute=17,
-   
-)
 
-scheduler.start()
 
 # List of websites to monitor
 websites = [
@@ -129,6 +121,15 @@ def monitor_websites():
 
 # Flask endpoint to trigger monitoring manually
 
+scheduler.add_job(
+    monitor_websites,
+    'cron',
+    hour=13,
+    minute=27,
+   
+)
+
+scheduler.start()
 
 # @app.route('/run-monitor', methods=['GET'])
 # def run_monitor():
