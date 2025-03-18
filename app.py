@@ -6,10 +6,12 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
 import schedule
 import time
+from datetime import datetime
 import os
 import threading
 
@@ -28,16 +30,21 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
-
+# Get the server's local time zone
+server_timezone = datetime.datetime.now(
+    datetime.timezone.utc).astimezone().tzinfo
 # Creating  a scheduler instance
 scheduler = BackgroundScheduler(daemon=True)
 
+
 @app.route("/send_email")
 def index():
-    msg = Message(subject='Hello from the other side!', sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+    msg = Message(subject='Hello from the other side!',
+                  sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
     msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
     mail.send(msg)
     return "Message sent!"
+
 
 def greeting():
     with app.app_context():
@@ -52,9 +59,9 @@ def greeting():
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
 scheduler.add_job(
     greeting,
-   
-   'interval',
-    seconds=120
+    'cron',
+    hour=16,
+    time=server_timezone
 )
 
 scheduler.start()
