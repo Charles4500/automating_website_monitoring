@@ -32,6 +32,12 @@ mail = Mail(app)
 # Creating  a scheduler instance
 scheduler = BackgroundScheduler()
 
+@app.route("/send_email")
+def index():
+    msg = Message(subject='Hello from the other side!', sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
+    mail.send(msg)
+    return "Message sent!"
 
 def greeting():
     with app.app_context():
