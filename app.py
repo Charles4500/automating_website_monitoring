@@ -30,7 +30,7 @@ app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
 # Creating  a scheduler instance
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(daemon=True)
 
 @app.route("/send_email")
 def index():
@@ -53,8 +53,8 @@ def greeting():
 scheduler.add_job(
     greeting,
     'cron',
-    hour=15,
-    minute=10
+   'interval',
+    seconds=120
 )
 
 scheduler.start()
