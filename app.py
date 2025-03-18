@@ -47,8 +47,8 @@ def greeting():
 scheduler.add_job(
     greeting,
     'cron',
-    hour=2,
-    minute=18
+    hour=14,
+    minute=25
 )
 
 scheduler.start()
