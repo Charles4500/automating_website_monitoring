@@ -93,12 +93,17 @@ def monitor_websites():
 # def run_monitor():
 #     threading.Thread(target=monitor_websites).start()
 #     return jsonify({"message": "Website monitoring started."})
-
+def greeting():
+    with app.app_context():
+        msg = Message(subject='Hello from the other side!', sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
+        mail.send(msg)
+        return "Message sent!"
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
 scheduler.add_job(
-    func=monitor_websites,
-    trigger=CronTrigger(hour=12,minute=58)
+    func=greeting,
+    trigger=CronTrigger(hour=13,minute=19)
 )
 
 scheduler.start()
