@@ -125,7 +125,7 @@ scheduler.add_job(
     monitor_websites,
     'cron',
     hour=13,
-    minute=35,
+    minute=40,
    
 )
 
