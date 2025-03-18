@@ -11,6 +11,9 @@ twilio = "*"
 webdriver-manager = "*"
 flask = "*"
 gunicorn = "*"
+flask-mail = "*"
+python-dotenv = "*"
+flask-redmail = "*"
 
 [dev-packages]
 
