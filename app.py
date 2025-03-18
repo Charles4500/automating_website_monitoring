@@ -108,7 +108,7 @@ scheduler.add_job(
     greeting,
     'cron',
     hour=1,
-    minute=42
+    minute=50
 )
 
 scheduler.start()
