@@ -11,7 +11,7 @@ from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
 import schedule
 import time
-from datetime import datetime
+import datetime
 import os
 import threading
 
@@ -61,7 +61,8 @@ scheduler.add_job(
     greeting,
     'cron',
     hour=16,
-    time=server_timezone
+    minute=8,
+    timezone=server_timezone
 )
 
 scheduler.start()
