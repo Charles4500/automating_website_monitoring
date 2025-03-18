@@ -41,7 +41,7 @@ scheduler = BackgroundScheduler(daemon=True)
 @app.route("/send_email")
 def index():
     msg = Message(subject='Hello from the other side!',
-                  sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+                  sender='', recipients=[''])
     msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
     mail.send(msg)
     return "Message sent!"
@@ -50,7 +50,7 @@ def index():
 def greeting():
     with app.app_context():
         msg = Message(subject='Hello from the other side!',
-                      sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+                      sender='', recipients=[''])
         msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
         mail.send(msg)
         print('sending message')
@@ -98,16 +98,16 @@ def check_website(website):
         with app.app_context():
             msg = Message(
                 subject=f"✅ Login successful for {website['url']}",
-                sender='charlesbiegon973@gmail.com',
-                recipients=['charleskibet101@gmail.com'],
+                sender='',
+                recipients=[''],
                 body=f"Login to {website['url']} was successful.")
             mail.send(msg)
     except Exception as e:
         with app.app_context():
             msg = Message(
                 subject=f"⚠️ Login failed for {website['url']}",
-                sender='charlesbiegon973@gmail.com',
-                recipients=['charleskibet101@gmail.com'],
+                sender='',
+                recipients=[''],
                 body=f"Error: {str(e)}"
             )
             mail.send(msg)
