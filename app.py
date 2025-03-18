@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from flask_mail import Mail, Message
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
 import schedule
 import time
@@ -22,6 +24,8 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+# Creating  a scheduler instance
+scheduler = BackgroundScheduler()
 
 # List of websites to monitor
 websites = [
@@ -92,16 +96,20 @@ def monitor_websites():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-schedule.every().day.at("12:20").do(monitor_websites)
+scheduler.add_job(
+    func=monitor_websites,
+    trigger=CronTrigger(hour=12,minute=58)
+)
 
+scheduler.start()
 
-def run_scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+# def run_scheduler():
+#     while True:
+#         schedule.run_pending()
+#         time.sleep(1)
 
 
 # Run scheduler in a separate thread
-threading.Thread(target=run_scheduler, daemon=True).start()
+# threading.Thread(target=run_scheduler, daemon=True).start()
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
