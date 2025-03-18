@@ -1,4 +1,5 @@
 from flask import Flask
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -16,6 +17,10 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
@@ -26,6 +31,27 @@ mail = Mail(app)
 
 # Creating  a scheduler instance
 scheduler = BackgroundScheduler()
+
+
+def greeting():
+    with app.app_context():
+        msg = Message(subject='Hello from the other side!',
+                      sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
+        mail.send(msg)
+        print('sending message')
+        return "Message sent!"
+
+
+# Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
+scheduler.add_job(
+    greeting,
+    'cron',
+    hour=14,
+    minute=7
+)
+
+scheduler.start()
 
 # List of websites to monitor
 websites = [
@@ -93,25 +119,6 @@ def monitor_websites():
 # def run_monitor():
 #     threading.Thread(target=monitor_websites).start()
 #     return jsonify({"message": "Website monitoring started."})
-def greeting():
-    with app.app_context():
-        msg = Message(subject='Hello from the other side!',
-                      sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
-        msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
-        mail.send(msg)
-        print('sending message')
-        return "Message sent!"
-
-
-# Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-scheduler.add_job(
-    greeting,
-    'cron',
-    hour=1,
-    minute=56
-)
-
-scheduler.start()
 
 
 # while True:
@@ -122,8 +129,8 @@ scheduler.start()
 #         schedule.run_pending()
 #         time.sleep(1)
 
-
 # Run scheduler in a separate thread
 # threading.Thread(target=run_scheduler, daemon=True).start()
 if __name__ == '__main__':
+    logger.info("Starting Flask application")
     app.run(debug=True, host='0.0.0.0', port=5000)
