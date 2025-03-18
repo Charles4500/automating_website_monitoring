@@ -1,42 +1,36 @@
-from flask import Flask, jsonify
+from flask import Flask
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
 import schedule
 import time
-import json
 import os
-import requests
 import threading
+
+load_dotenv()
 
 app = Flask(__name__)
 
-# UltraMsg API Configuration
-ULTRA_API_URL = os.environ.get('ULTRA_API_URL')
-ULTRA_API_TOKEN = os.environ.get('ULTRA_API_TOKEN')
-CHAT_ID = os.environ.get('CHAT_ID')
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 
-# Full documenation here `https://blog.ultramsg.com/make-whatsapp-chatbot-using-python-ultramsg/`
+@app.route("/")
+def index():
+    msg = Message(subject='Hello from the other side!',
+                  sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
+    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
+    mail.send(msg)
+    return "Message sent!"
 
-class UltraChatBot:
-    def __init__(self):
-        self.ultraAPIUrl = ULTRA_API_URL
-        self.token = ULTRA_API_TOKEN
-
-    def send_requests(self, endpoint, data):
-        url = f"{self.ultraAPIUrl}{endpoint}?token={self.token}"
-        headers = {'Content-type': 'application/json'}
-        response = requests.post(url, data=json.dumps(data), headers=headers)
-        return response.json()
-
-    def send_message(self, chatID, text):
-        data = {"to": chatID, "body": text}
-        return self.send_requests('messages/chat', data)
-
-
-chatbot = UltraChatBot()
 
 # List of websites to monitor
 websites = [
@@ -48,11 +42,11 @@ websites = [
         'password': 'your_password',
         'submit_button': '//button[@type="submit"]'
     },
-    # If you have more than website you want to monitor
 ]
 
 
 def check_website(website):
+
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     try:
         driver.get(website['url'])
@@ -73,12 +67,22 @@ def check_website(website):
 
         if 'dashboard' not in driver.current_url:
             raise Exception('Login failed')
-
-        chatbot.send_message(
-            CHAT_ID, f"✅ Login successful for {website['url']}. Everything is working fine.")
+        with app.app_context():
+            msg = Message(
+                subject=f"✅ Login successful for {website['url']}",
+                sender='charlesbiegon973@gmail.com',
+                recipients=['charleskibet101@gmail.com'],
+                body=f"Login to {website['url']} was successful.")
+            mail.send(msg)
     except Exception as e:
-        chatbot.send_message(
-            CHAT_ID, f"⚠️ Login failed for {website['url']}: {str(e)}")
+        with app.app_context():
+            msg = Message(
+                subject=f"⚠️ Login failed for {website['url']}",
+                sender='charlesbiegon973@gmail.com',
+                recipients=['charleskibet101@gmail.com'],
+                body=f"Error: {str(e)}"
+            )
+            mail.send(msg)
     finally:
         driver.quit()
 
@@ -97,7 +101,7 @@ def monitor_websites():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-schedule.every().day.at("09:30").do(monitor_websites)
+schedule.every().day.at("11:52").do(monitor_websites)
 
 
 def run_scheduler():
@@ -108,6 +112,5 @@ def run_scheduler():
 
 # Run scheduler in a separate thread
 threading.Thread(target=run_scheduler, daemon=True).start()
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
