@@ -23,15 +23,6 @@ app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
 
-@app.route("/")
-def index():
-    msg = Message(subject='Hello from the other side!',
-                  sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
-    msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
-    mail.send(msg)
-    return "Message sent!"
-
-
 # List of websites to monitor
 websites = [
     {
@@ -101,7 +92,7 @@ def monitor_websites():
 
 
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
-schedule.every().day.at("12:10").do(monitor_websites)
+schedule.every().day.at("12:20").do(monitor_websites)
 
 
 def run_scheduler():
