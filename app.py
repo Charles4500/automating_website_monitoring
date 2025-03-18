@@ -108,14 +108,14 @@ scheduler.add_job(
     greeting,
     'cron',
     hour=1,
-    minute=50
+    minute=56
 )
 
 scheduler.start()
 
 
-while True:
-    time.sleep(1)
+# while True:
+#         time.sleep(1)
 
 # def run_scheduler():
 #     while True:
