@@ -33,6 +33,7 @@ mail = Mail(app)
 # Get the server's local time zone
 server_timezone = datetime.datetime.now(
     datetime.timezone.utc).astimezone().tzinfo
+print(server_timezone)
 # Creating  a scheduler instance
 scheduler = BackgroundScheduler(daemon=True)
 
@@ -60,9 +61,9 @@ def greeting():
 scheduler.add_job(
     greeting,
     'cron',
-    hour=16,
-    minute=8,
-    timezone=server_timezone
+    hour=13,
+    minute=17,
+   
 )
 
 scheduler.start()
