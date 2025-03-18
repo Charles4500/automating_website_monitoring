@@ -103,7 +103,7 @@ def greeting():
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
 scheduler.add_job(
     func=greeting,
-    trigger=CronTrigger(hour=13,minute=19)
+    trigger=CronTrigger(hour=1,minute=24)
 )
 
 scheduler.start()
