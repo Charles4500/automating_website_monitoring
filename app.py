@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
-import pytz
+
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
 import schedule
