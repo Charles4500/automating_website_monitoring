@@ -52,7 +52,7 @@ def greeting():
 # Schedule the task to run every day at 'specific time you want the script to run e.g 09.00
 scheduler.add_job(
     greeting,
-    'cron',
+   
    'interval',
     seconds=120
 )
