@@ -124,7 +124,7 @@ scheduler.add_job(
     monitor_login,
     'cron',
     hour=7,
-    minute=31,
+    minute=33,
 
 )
 
