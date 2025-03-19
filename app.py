@@ -123,8 +123,8 @@ def monitor_login():
 scheduler.add_job(
     monitor_login,
     'cron',
-    hour=7,
-    minute=30,
+    hour=5,
+    minute=31,
 
 )
 
