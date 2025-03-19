@@ -91,7 +91,7 @@ def check_login():
 def index():
     with app.app_context():
         msg = Message(subject='Hello from the other side!',
-                      sender='', recipients=[''])
+                      sender='charlesbiegon973@gmail.com', recipients=['charleskibet101@gmail.com'])
         msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works."
         mail.send(msg)
         return "Message sent!"
@@ -100,8 +100,8 @@ def index():
 def send_email(subject, body):
     try:
         with app.app_context():
-            msg = Message(subject,  sender='',
-                          recipients=[''],)
+            msg = Message(subject,  sender='charlesbiegon973@gmail.com',
+                          recipients=['charleskibet101@gmail.com'],)
             msg.body = body
             mail.send(msg)
         logging.info("Email sent successfully.")
@@ -123,7 +123,7 @@ def monitor_login():
 scheduler.add_job(
     monitor_login,
     'cron',
-    hour=5,
+    hour=7,
     minute=31,
 
 )
