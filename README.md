@@ -19,7 +19,6 @@ python app.py
 ## TODO 
 
 - [ ] Add support for monitoring multiple websites
-- [ ] Add support for sending messages to multiple platforms e.g. email, slack
 - [ ] Add support for sending messages to multiple users
 
 
